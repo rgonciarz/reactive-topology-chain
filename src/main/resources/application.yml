@@ -1,0 +1,67 @@
+server.port: 18080
+
+settings:
+  schema-registry: http://127.0.0.1:8081
+  kafka-brokers: localhost:9092
+
+spring.cloud.stream:
+
+  function.definition: topologyA;topologyRconsumer;topologyRsupplier;topologyB
+#  function.definition: topologyA;topologyR;topologyB
+
+  kafka.streams:
+    binder:
+      auto-create-topics: true
+      brokers: ${settings.kafka-brokers}
+
+      configuration:
+        default:
+          key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+          value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+        schema.registry.url: ${settings.schema-registry}
+
+      functions:
+        topologyA.applicationId: topologyA
+        topologyB.applicationId: topologyB
+
+  kafka:
+    binder:
+      brokers: ${settings.kafka-brokers}
+
+      producer-properties:
+        acks: all
+        schema.registry.url: ${settings.schema-registry}
+        key.serializer: org.apache.kafka.common.serialization.StringSerializer
+        value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+        auto.register.schemas: true
+
+      consumer-properties:
+        schema.registry.url: ${settings.schema-registry}
+        key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+        specific.avro.reader: true
+
+  bindings:
+
+    topologyA-in-0:
+      destination: topic1
+    topologyA-out-0:
+      destination: topic2
+
+    topologyR-in-0:
+      group: topologyR
+      destination: topic2
+    topologyR-out-0:
+      destination: topic3
+
+    topologyRconsumer-in-0:
+      group: topologyR
+      destination: topic2
+
+    topologyRsupplier-out-0:
+      destination: topic3
+      producer:
+        useNativeEncoding: true
+
+    topologyB-in-0:
+      destination: topic3

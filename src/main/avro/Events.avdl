@@ -1,0 +1,8 @@
+@namespace("wr.avro")
+protocol Reactive {
+
+  record StringValue {
+    string value;
+  }
+
+}
