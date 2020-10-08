@@ -6,8 +6,8 @@ settings:
 
 spring.cloud.stream:
 
-#  function.definition: topologyA;topologyRconsumer;topologyRsupplier;topologyB
-  function.definition: topologyA;topologyR;topologyB
+  function.definition: topologyA;topologyRconsumer;topologyRsupplier;topologyB
+#  function.definition: topologyA;topologyR;topologyB
 
   kafka.streams:
     binder:
