@@ -20,7 +20,7 @@ internal class ApplicationKtTest {
     @Test
     fun manualTest() {
         val stringValue = UUID.randomUUID().toString()
-        send("topic2", stringValue, stringValue)
+        send("topic1", stringValue, stringValue)
     }
 
     private fun send(topic: String, key: String, value: String) {
