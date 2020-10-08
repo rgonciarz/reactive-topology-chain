@@ -5,9 +5,6 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.10.RELEASE"
 	kotlin("jvm") version "1.3.72"
 	kotlin("plugin.spring") version "1.3.72"
-
-	id("com.commercehub.gradle.plugin.avro") version "0.19.1"
-	id("com.commercehub.gradle.plugin.avro-base") version "0.19.1"
 }
 
 group = "wr"
@@ -30,12 +27,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
-	implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka-streams")
 	implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka")
-
-	implementation("io.confluent:kafka-avro-serializer:${property("confluentVersion")}")
-	implementation("io.confluent:kafka-streams-avro-serde:${property("confluentVersion")}")
-	implementation("org.apache.avro:avro:1.9.1")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
