@@ -6,8 +6,8 @@ settings:
 
 spring.cloud.stream:
 
-#  function.definition: topologyA;topologyRconsumer;topologyRsupplier;topologyB
   function.definition: topologyA;topologyR;topologyB
+#  function.definition: topologyR
 
   kafka.streams:
     binder:
@@ -17,8 +17,7 @@ spring.cloud.stream:
       configuration:
         default:
           key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
-          value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
-        schema.registry.url: ${settings.schema-registry}
+          value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
 
       functions:
         topologyA.applicationId: topologyA
@@ -29,17 +28,12 @@ spring.cloud.stream:
       brokers: ${settings.kafka-brokers}
 
       producer-properties:
-        acks: all
-        schema.registry.url: ${settings.schema-registry}
         key.serializer: org.apache.kafka.common.serialization.StringSerializer
-        value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-        auto.register.schemas: true
+#        value.serializer: org.apache.kafka.common.serialization.StringSerializer
 
       consumer-properties:
-        schema.registry.url: ${settings.schema-registry}
         key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
-        value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-        specific.avro.reader: true
+        value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
   bindings:
 
@@ -52,13 +46,6 @@ spring.cloud.stream:
       group: topologyR
       destination: topic2
     topologyR-out-0:
-      destination: topic3
-
-    topologyRconsumer-in-0:
-      group: topologyR
-      destination: topic2
-
-    topologyRsupplier-out-0:
       destination: topic3
       producer:
         useNativeEncoding: true

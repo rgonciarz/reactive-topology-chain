@@ -19,26 +19,17 @@ private val log = KotlinLogging.logger {}
 class TopologyConfig {
 
     @Bean
-    fun topologyA() = Function<KStream<String, StringValue>, KStream<String, StringValue>> {
+    fun topologyA() = Function<KStream<String, String>, KStream<String, String>> {
         it.peek { k, v -> log.info("topologyA: {}, {}", k, v) }
     }
 
     @Bean
-    fun topologyRconsumer(fluxSink: FluxSink<Message<StringValue>>) = Consumer<Flux<Message<StringValue>>> {
-        it
-                .doOnNext { message -> log.info("topologyRconsumer: {}", message.payload) }
-                .map { message -> MutableMessage(message.payload, mapOf(KafkaHeaders.MESSAGE_KEY to message.headers[KafkaHeaders.RECEIVED_MESSAGE_KEY])) }
-                .doOnNext { message -> fluxSink.next(message) }
-                .subscribe()
-    }
-
-    @Bean
-    fun topologyR() = Function<Flux<StringValue>,Flux<StringValue>> {
+    fun topologyR() = Function<Flux<String>,Flux<String>> {
         it.doOnNext { v -> log.info("topologyR: {}", v) }
     }
 
     @Bean
-    fun topologyB() = Consumer<KStream<String, StringValue>> {
+    fun topologyB() = Consumer<KStream<String, String>> {
         it.peek { k, v -> log.info("topologyB: {}, {}", k, v) }
     }
 
