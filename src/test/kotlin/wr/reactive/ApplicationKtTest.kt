@@ -3,6 +3,7 @@ package wr.reactive
 import mu.KotlinLogging
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringSerializer
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
 import org.springframework.kafka.core.KafkaTemplate
@@ -15,11 +16,11 @@ private val log = KotlinLogging.logger {}
 
 internal class ApplicationKtTest {
 
-//    @Disabled
+    @Disabled
     @Test
     fun manualTest() {
         val stringValue = UUID.randomUUID().toString()
-        send("topic1", stringValue, stringValue)
+        send("topic2", stringValue, stringValue)
     }
 
     private fun send(topic: String, key: String, value: String) {

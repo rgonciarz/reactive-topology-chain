@@ -6,22 +6,7 @@ settings:
 
 spring.cloud.stream:
 
-  function.definition: topologyA;topologyR;topologyB
-#  function.definition: topologyR
-
-  kafka.streams:
-    binder:
-      auto-create-topics: true
-      brokers: ${settings.kafka-brokers}
-
-      configuration:
-        default:
-          key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
-          value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
-
-      functions:
-        topologyA.applicationId: topologyA
-        topologyB.applicationId: topologyB
+  function.definition: topologyR
 
   kafka:
     binder:
@@ -37,11 +22,6 @@ spring.cloud.stream:
 
   bindings:
 
-    topologyA-in-0:
-      destination: topic1
-    topologyA-out-0:
-      destination: topic2
-
     topologyR-in-0:
       group: topologyR
       destination: topic2
@@ -50,5 +30,3 @@ spring.cloud.stream:
       producer:
         useNativeEncoding: true
 
-    topologyB-in-0:
-      destination: topic3
